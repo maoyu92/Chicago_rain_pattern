@@ -7,7 +7,8 @@
 
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from streamlit.components.v1 import html
 import math
