@@ -18,22 +18,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-# def intensity(A, B, C, N, t, P):
-#     """
-#     雨强计算。
-#     参数:
-#     - a,b,c,n: 参数。
-#     - p (float): 设计重现期（单位：年）。
-#     - t (np.ndarray): 分钟数组
-#     返回:
-#     - its: 雨强（单位：mm/min）。
-#     """
-#     q = (A * (1 + C * math.log10(P))) / (t + B) ** N
-#     its = q
-#     # its = q / 167
-#     return its
-
-
 def intensity(A, B, C, N, t, P):
     """
     雨强计算。
@@ -47,14 +31,12 @@ def intensity(A, B, C, N, t, P):
     # a = A * (1 + C * math.log10(P))
     a = A * 0.4 * (1 + C * math.log10(P))
     its = a * ((1 - N) * t + B) / np.power(t + B, N + 1)
-
     return its
 
 
 def rainCalc_single_period(A, B, C, N, T: int, p: float, peak_ratio: float):
     """
     计算单一时段内的降雨强度分布。
-
     参数:
     - T (int): 降雨持续时间（单位：分钟）。
     - p (float): 设计重现期（单位：年）。
@@ -77,8 +59,6 @@ def rainCalc_single_period(A, B, C, N, T: int, p: float, peak_ratio: float):
             itAr[i] = intensity(A, B, C, N, (peak_time - t[i]) / peak_ratio, p) / 60
         else:
             itAr[i] = intensity(A, B, C, N, (t[i] - peak_time) / peak_ratio, p) / 60
-
-    # 绘制雨强曲线
     return itAr
 
 
@@ -127,22 +107,6 @@ if page == "预定义暴雨强度公式":
         A, B, C, N = selected_row[["A", "B", "C", "N"]].values[0]
         # 显示选中城市的暴雨公式参数
         st.write(f"**{province}{city} 的暴雨公式参数**")
-        # st.write(f"A={A}, B={B}, C={C}, N={N}")
-        # st.markdown(
-        #     r"""
-        # <style>
-        #     .stMarkdown {
-        #         # text-align: center;
-        #         font-size: 24px;
-        #     }
-        # </style>
-
-        # $$
-        # q=\frac{A(1+C\cdot\log(P))}{(t+B)^N}
-        # $$
-        # """,
-        #     unsafe_allow_html=True,
-        # )
         st.markdown(
             r"""
         $$
