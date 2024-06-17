@@ -90,7 +90,7 @@ if page == "预定义暴雨强度公式":
     st.markdown("### 预定义暴雨强度公式")
     # 下拉选择城市
     province = st.sidebar.selectbox(
-        "选择省份", data["省份"].unique(), index=data["省份"].unique().tolist().index("重庆")
+        "选择省份", data["省份"].unique(), index=data["省份"].unique().tolist().index("重庆市")
     )
 
     # 根据所选省份筛选区县
@@ -122,7 +122,7 @@ if page == "预定义暴雨强度公式":
             "暴雨历时（分钟）", min_value=1, max_value=1440, value=60
         )
         peak_ratio = st.sidebar.slider(
-            "峰值比例", min_value=0.0, max_value=1.0, step=0.01, value=0.40
+            "峰值比例", min_value=0.0, max_value=1.0, step=0.01, value=0.35
         )
         start_date = st.sidebar.date_input("选择日期", datetime.date.today())
         # 生成雨型按钮
@@ -130,7 +130,6 @@ if page == "预定义暴雨强度公式":
             # 检查P和t是否已输入
             if P and duration_minutes:
                 # 计算暴雨强度q
-                # t = duration_minutes
                 q = (A * (1 + C * math.log10(P))) / ((duration_minutes + B) ** N)
                 timestamps = pd.date_range(
                     start=start_date, periods=duration_minutes + 1, freq="T"
@@ -174,9 +173,9 @@ if page == "预定义暴雨强度公式":
                 st.warning("请确保已输入重现期P(年)和暴雨历时（分钟）。")
 
         # 雨水流量参数输入
-        s_hectares = st.sidebar.number_input("汇水面积s（公顷）", min_value=1.0, value=20.0)
+        s_hectares = st.sidebar.number_input("汇水面积s（公顷）", min_value=1.0, value=2000.0)
         phi = st.sidebar.slider(
-            "径流系数φ", min_value=0.0, max_value=1.0, step=0.01, value=0.40
+            "径流系数φ", min_value=0.0, max_value=1.0, step=0.01, value=0.45
         )
 
         if st.sidebar.button("计算雨水流量"):
